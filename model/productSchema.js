@@ -5,7 +5,7 @@ const productSchema = new Mongoose.Schema({
     name:String, 
     price:Mongoose.Decimal128,
     brand:String, 
-    category_id:[{ref:'Category', type:Mongoose.Schema.Types.ObjectId}],
+    category_id:{ref:'Category', type:Mongoose.Schema.Types.ObjectId},
     category:String,
     stock:Number,
     image:String,

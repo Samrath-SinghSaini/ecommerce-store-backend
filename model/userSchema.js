@@ -1,10 +1,14 @@
-import Mongoose from 'mongoose'
+const Mongoose = require('mongoose')
 
-const user = new Mongoose.Schema({
-    email:String, 
-    userName:String, 
-    password:String, 
-    fullName:String, 
-    rating:Number
+const userSchema = new Mongoose.Schema({
+    email:{type:String, required:true}, 
+    userName:{type:String, required:true}, 
+    password:{type:String, required:true}, 
+    fullName:{type:String, required:true}, 
+    rating:Number, 
+    wishlistItem: [{ref:'Products', type:Mongoose.Types.ObjectId}], 
+    cart:[{type:Mongoose.Types.ObjectId}]
 })
-export default user;
+
+const userModel = Mongoose.model('User',userSchema)
+module.exports = userModel

@@ -15,7 +15,7 @@ const {productModel} = require('./productSchema')
 
 async function newProduct(product){
     const save = await product.save();
-    console.log(save)
+    
 }
 async function newCategory(category){
     let returnMessage

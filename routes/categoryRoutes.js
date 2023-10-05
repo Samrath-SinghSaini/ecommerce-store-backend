@@ -14,7 +14,6 @@ Router.get('/create', (req,res)=>{
 
 Router.post('/create', (req, res)=>{
     const category = req.body
-    console.log(category)
     const saveCategory = new categoryModel(category)
     newCategory(saveCategory)
     .then((res)=>{
@@ -29,7 +28,6 @@ Router.post('/create', (req, res)=>{
 Router.get('/fetch', (req,res)=>{
     categoryModel.find({})
     .then((response)=>{
-        console.log(res)
         res.send(JSON.stringify(response))
     }).catch((err)=>{
         console.log(err)

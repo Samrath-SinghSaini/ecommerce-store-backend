@@ -16,23 +16,29 @@ Router.get("/create", (req, res) => {
 });
 
 Router.post("/create", (req, res) => {
-  const product = req.body;
-  console.log(product);
-  let model = new productModel(product);
-  newProduct(model)
-    .then((response) => {
-      res.send(response);
-
-      console.log("product saved successfully");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  if(req.isAdmin === true){
+    const product = req.body;
+    console.log(product);
+    let model = new productModel(product);
+    newProduct(model)
+      .then((response) => {
+        res.status(200).send(response);
+        console.log("product saved successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(501).json({message:'there has been an error', error:err})
+      });
+  } else{
+    res.status(500).json({message:'you cannot access this resource', isAdmin:req.isAdmin})
+  }
+ 
 });
 
+//Change the auth method for incoming requests by checking cookies instead of req.verified
+
 Router.get("/fetch",checkToken, (req, res) => {
-  console.log('haan mai cookie bol rahi hu products se')
-  console.log(req.cookies)
+ 
   if (!req.verified) {
     console.log("there was an error with your access token");
     res.status(503).json({message:'You cannot access this resource. Access denied', authenticated:false})
@@ -48,6 +54,7 @@ Router.get("/fetch",checkToken, (req, res) => {
         res.status(503).json({message:'There was an error with your request.', error:err})
     });
 });
+
 
 Router.get("/item/:objectId", (req, res) => {
   let objectId = req.params.objectId;
@@ -71,4 +78,6 @@ Router.get("/item/:objectId", (req, res) => {
       console.log(err);
     });
 });
+
+
 module.exports = Router;

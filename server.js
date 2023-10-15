@@ -26,7 +26,7 @@ catch(err){console.log(err)
   
 
 app.get('/', (req, res)=>{
-    res.json(products)
+    res.status(200).json({message:'You are now connected to ecommerce website backend'}).send('<h1>This is the backend API for an ecommerce app built by Samrath <h1/>')
    
 })
 app.post('/', (req,res)=>{

@@ -1,7 +1,9 @@
 const Mongoose = require("mongoose");
+const dotenv = require('dotenv')
+dotenv.config()
 
 async function dbConnect(){
-    await Mongoose.connect('mongodb://127.0.0.1:27017/ecommerce')
+    await Mongoose.connect(process.env.CONNECTION_STRING)
     .then((res)=>{console.log("Connected to database")})
     .catch((err)=>{
         console.log("Error: Could not establish a connection to the database")

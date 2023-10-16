@@ -16,7 +16,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 function callBackFunc() {
   console.log("Mai callback kardunga saale");
 }
-router.get("/user/register", (req, res) => {
+router.get("/register", (req, res) => {
   res.json({ name: "name", lastName: "lastName" });
 });
 
@@ -24,7 +24,7 @@ router.post("/user/test", (req, res) => {
   console.log(req.body);
   res.status(501).json({ message: "received" });
 });
-router.post("/user/register", async (req, res) => {
+router.post("/register", async (req, res) => {
   console.log(req.body);
   let saltRounds = 10;
   let password = req.body.password;
@@ -67,7 +67,7 @@ router.post("/user/register", async (req, res) => {
   });
 });
 
-router.post("/user/login", async (req, response) => {
+router.post("/login", async (req, response) => {
   console.log("received login request");
   let username = req.body.username;
   userModel.findOne({ userName: username }).then((res) => {
@@ -154,7 +154,7 @@ router.post("/user/login", async (req, response) => {
   });
 });
 
-router.get("/user/logout", (req, res) => {
+router.get("/logout", (req, res) => {
   console.log("logout request received");
   res.clearCookie("jwt");
   res.clearCookie("isLoggedIn");
@@ -163,7 +163,7 @@ router.get("/user/logout", (req, res) => {
   res.json({ status: 201, message: "request received, clearing cookies" });
 });
 
-router.post("/user/wishlist", (req, res)=>{
+router.post("/wishlist", (req, res)=>{
   let itemId = req.objectId
   console.log('wishlist post received')
   console.log(req.body)
@@ -179,7 +179,7 @@ router.post("/user/wishlist", (req, res)=>{
   res.status(201).json({message:'Request received'})
 })
 
-router.get("/user/wishlist",async (req,res)=>{
+router.get("/wishlist",async (req,res)=>{
   let userName = req.query.userName
   if(userName){
     let wishListRes = await userModel.find({userName:userName}, {password:0})
@@ -192,7 +192,7 @@ router.get("/user/wishlist",async (req,res)=>{
 
 })
 
-router.post("/user/cart", (req, res)=>{
+router.post("/cart", (req, res)=>{
   let itemId = req.objectId
   console.log('cart post received')
   console.log(req.body)
@@ -208,7 +208,7 @@ router.post("/user/cart", (req, res)=>{
   res.status(201).json({message:'Request received'})
 })
 
-router.get("/user/cart",async (req,res)=>{
+router.get("/cart",async (req,res)=>{
   let userName = req.query.userName
   if(userName){
     let cartRes = await userModel.find({userName:userName}, {password:0})

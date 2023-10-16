@@ -4,7 +4,9 @@ dotenv.config()
 const checkToken = (req,res,next)=>{
     console.log('requested cookies  from auth')
 
-    let requestCookies = req.cookies
+    let requestCookies = req.headers.cookie
+    
+    console.log(requestCookies)
     req.admin = false;
     
     if(!requestCookies){
@@ -13,16 +15,26 @@ const checkToken = (req,res,next)=>{
         next()
         return
     }
-    let token = requestCookies.jwt
+    let cookies = requestCookies.split('; ')
+    let userName = cookies ?? cookies.find((item)=>{return item.startsWith('userName')})
+    let userNameVal = userName ?? userName.split('=')[1]
+    let token = cookies.find((item)=>{return item.startsWith('jwt')})
+    let tokenVal = token.split('=')[1]
+    let isLoggedIn = cookies ?? cookies.find((item)=>{return item.startsWith('isLoggedIn')})
+    let loggedInVal = isLoggedIn ?? isLoggedIn.split('=')[1]
+    console.log(`token`)
+    console.log(tokenVal)
+    let admin = cookies.find((item)=>{return item.startsWith('isAdmin')})
+    let adminVal = admin ? admin.split('=')[1] : false
     
-    if(token == undefined){
+    if(tokenVal == undefined){
         req.verified = false
         next()
         return
     }
-    let isAdmin = requestCookies.isAdmin
-    if(isAdmin){
-        jwt.verify(token, process.env.REFRESH_TOKEN, (err, payload)=>{
+  
+    if(adminVal){
+        jwt.verify(tokenVal, process.env.REFRESH_TOKEN, (err, payload)=>{
             if(err){
                 console.log('could not verify token')
                 console.log(err)
@@ -36,7 +48,7 @@ const checkToken = (req,res,next)=>{
             req.payload = payload}
         })
     } else{
-    jwt.verify(token, process.env.ACCESS_TOKEN, (err, payload)=>{
+    jwt.verify(tokenVal, process.env.ACCESS_TOKEN, (err, payload)=>{
         if(err){
             console.log('could not verify token')
             console.log(err)

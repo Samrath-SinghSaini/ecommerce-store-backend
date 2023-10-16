@@ -34,9 +34,10 @@ app.post('/', (req,res)=>{
 })
 
 let PORT = '3000'; 
-// app.listen(PORT, ()=>{
-//     console.log("Server started on " + PORT)
-// })
+app.listen(PORT, (err)=>{
+    if(err){console.log(err)}
+    console.log('server started on port ' + PORT)
+})
 
 
 

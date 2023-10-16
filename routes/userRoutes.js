@@ -20,6 +20,10 @@ router.get("/register", (req, res) => {
   res.json({ name: "name", lastName: "lastName" });
 });
 
+router.get("/test", (req, res) => {
+  res.json({ name: "name", lastName: "lastName" });
+});
+
 router.post("/user/test", (req, res) => {
   console.log(req.body);
   res.status(501).json({ message: "received" });
@@ -128,6 +132,7 @@ router.post("/login", async (req, response) => {
             });
 
             response
+            .setHeader("Access-Control-Allow-Credentials", 'true')
               .status(200)
               .cookie("isLoggedIn", true, {
                 maxAge: 60000,

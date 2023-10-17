@@ -57,6 +57,7 @@ Router.get("/fetch",checkToken, (req, res) => {
 
 
 Router.get("/item/:objectId", (req, res) => {
+  console.log('received get for item')
   let objectId = req.params.objectId;
   productModel
     .findById(objectId)
